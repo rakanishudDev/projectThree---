@@ -8,28 +8,95 @@
       .flexColumn {
         display: flex;
         flex-direction: column;
-        justify-content: center;;
+        justify-content: center;
+        background-color: blue;
       }
      .flexRow {
       display: flex;
       flex-direction: row;
-      justify-content: center;;
+      justify-content: center;
+      background-color: green;
      }
      .stopper {
+       width: 200px;
+       height: 200px;
        background-color: ghostwhite;
+       border-radius: 50%;
+       
+     }
+     .katse {
+       background-color: red;
+     }
+     .stopperX {
+      height: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+     }
+     .stopperY {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
      }
 
     </style>
   </head>
   <body>
-    <div class="flexColumn">
+    
       <div class="flexRow">
         <div class="stopper">
-
+          <div class="stopperX">
+            <div class="stopperY">
+              <p class="counter">stopper</p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
     
     
+  <script>
+    const stopper = document.querySelector('.stopper');
+    const counter = document.querySelector('.counter');
+    let x = 00;
+    let y = 00;
+    let z = 00;
+    setInterval(stopperWork, 10);
+
+    function stopperWork() {
+
+      x++;
+      if (x == 60) {
+        x = 00;
+        y++;
+      } if (y == 60) {
+        y = 00;
+        z++;
+      } if (z == 24) {
+        x = 00;
+        y = 00;
+        z = 00;
+      }
+
+      if (x < 10) {
+        counter.textContent = '0' + x + ':' + '0' + y + ':' + '0' + z;
+      }
+
+      if (x > 9) {
+        counter.textContent = x + ':' + '0' + y + ':' + '0' + z;
+      } if (x > 59) {
+        counter.textContent = '0' + x + ':' + '0' + y + ':' + '0' + z;
+      } if (y > 9) {
+        counter.textContent = x + ':' + y + ':' + '0' + z;
+      } if (y > 59) {
+        counter.textContent = x + ':' + '0' + y + ':' + '0' + z;
+      } if (z > 9) {
+        counter.textContent = x + ':' + y + ':' + z;
+      } if (z > 23) {
+        counter.textContent = x + ':' + y + ':' + '0' + z;
+      }
+      
+    }
+  </script>
   </body>
 </html>
