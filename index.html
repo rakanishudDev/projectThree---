@@ -22,6 +22,8 @@
        height: 200px;
        background-color: ghostwhite;
        border-radius: 50%;
+       border-style: solid;
+       border-width: 1px;
        
      }
      .katse {
@@ -39,6 +41,23 @@
       flex-direction: column;
       justify-content: center;
      }
+     .counter {
+       text-align: center;
+     }
+     .timeDiv {
+       padding-top: 10px;
+       align-self: center;
+     }
+     .stop {
+       margin-left: 10px;
+       margin-right: 10px;
+     }
+     .stopperTimes {
+       text-align: center;
+       border-right: solid;
+       border-left: solid;
+       border-width: 1px;
+     }
 
     </style>
   </head>
@@ -48,55 +67,119 @@
         <div class="stopper">
           <div class="stopperX">
             <div class="stopperY">
-              <p class="counter">stopper</p>
+              <h2 class="counter">00:00:00:00</h2>
+              <div><button class="start">Start</button><span><button class="stop">Stop</button></span><span><button class="clear">Clear</button></span></div>
+              <div class="timeDiv"><button class="time">Time</button></div>
             </div>
+            
           </div>
         </div>
+      </div>
+      <div class="stopperTimes">
+       
       </div>
     
     
   <script>
     const stopper = document.querySelector('.stopper');
     const counter = document.querySelector('.counter');
+    const startCounter = document.querySelector('.start');
+    const stopCounter = document.querySelector('.stop');
+    const timeCounter = document.querySelector('.time');
+    const clearCounter = document.querySelector('.clear');
+    const stopperTimes = document.querySelector('.stopperTimes');
+    let ms = 00;
     let x = 00;
     let y = 00;
     let z = 00;
-    setInterval(stopperWork, 10);
+    let interval;
+    let timesCounter = 1;
+    let clearBtn;
 
-    function stopperWork() {
+    startCounter.addEventListener('click', stopperStart);
+    function stopperStart() {
 
-      x++;
-      if (x == 60) {
-        x = 00;
-        y++;
-      } if (y == 60) {
-        y = 00;
-        z++;
-      } if (z == 24) {
-        x = 00;
-        y = 00;
-        z = 00;
+      interval = setInterval(stopperWork, 10);
+      function stopperWork() {
+
+        ms++;;
+        if (ms == 100) {
+          ms = 00;
+          x++;
+        } if (x == 60) {
+          ms == 00;
+          x = 00;
+          y++;
+        } if (y == 60) {
+          ms = 00;
+          x == 00;
+          y = 00;
+          z++;
+        } if (z == 24) {
+          ms = 00;
+          x = 00;
+          y = 00;
+          z = 00;
+        }
+
+        let millisecond = '0' + ms;
+        let second = '0' + x;
+        let minute = '0' + y;
+        let hour = '0' + z;
+
+        if (ms > 9) {
+          millisecond = ms;
+        } if (x > 9) {
+          second = x;
+        } if (y > 9) {
+          minute = y;
+        } if (z > 9) {
+          hour = z;
+        }
+
+        counter.textContent = hour + ':' + minute + ':' + second + ':' + millisecond;
+      };
+    };
+
+    stopCounter.addEventListener('click', stopperStop);
+    function stopperStop() {
+      clearInterval(interval);
+    };
+
+    clearCounter.addEventListener('click', stopperClear);
+    function stopperClear() {
+      clearInterval(interval);
+      ms = 00;
+      x = 00;
+      y = 00;
+      z = 00;
+      counter.textContent = '00:00:00:00';
+      timesCounter = 1;
+    };
+    
+    timeCounter.addEventListener('click', stopperTime);
+    function stopperTime() {
+      if (clearBtn === undefined || clearBtn === null) {
+        clearBtn = document.createElement('button');
+        clearBtn.style.marginTop = '10px';
+        clearBtn.textContent = 'Clear times table';
+        stopperTimes.appendChild(clearBtn);
+        clearBtn.addEventListener('click', function() {
+          stopperTimes.textContent = '';
+          clearBtn = undefined;
+        });
       }
+      let p = document.createElement('p');
+      p.textContent = timesCounter + ')' + ' ### ' + counter.textContent;
+      let hr = document.createElement('hr');
+      timesCounter++;
+      stopperTimes.appendChild(p);
+      stopperTimes.appendChild(hr);
+    };
 
-      if (x < 10) {
-        counter.textContent = '0' + x + ':' + '0' + y + ':' + '0' + z;
-      }
+    
 
-      if (x > 9) {
-        counter.textContent = x + ':' + '0' + y + ':' + '0' + z;
-      } if (x > 59) {
-        counter.textContent = '0' + x + ':' + '0' + y + ':' + '0' + z;
-      } if (y > 9) {
-        counter.textContent = x + ':' + y + ':' + '0' + z;
-      } if (y > 59) {
-        counter.textContent = x + ':' + '0' + y + ':' + '0' + z;
-      } if (z > 9) {
-        counter.textContent = x + ':' + y + ':' + z;
-      } if (z > 23) {
-        counter.textContent = x + ':' + y + ':' + '0' + z;
-      }
-      
-    }
+
   </script>
   </body>
 </html>
